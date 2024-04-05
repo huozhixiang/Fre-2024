@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Selection</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <h1>Course Selection</h1>
-  
-  <div class="container">
-    <div class="available-courses">
-      <h2>Available Courses</h2>
-      <ul id="availableList" class="course-list">
-        <!-- Available courses will be populated dynamically -->
-      </ul>
-    </div>
-
-    <div class="selected-courses">
-      <h2>Selected Courses</h2>
-      <ul id="selectedList" class="course-list">
-        <!-- Selected courses will be populated dynamically -->
-      </ul>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="styles.css" />
+        <title>Course Selection Page</title>
+		<script src="main.js"></script>
+	</head>
+	<body>
+		<div class = "header">
+            <h1>Course Selection Page</h1>
+        </div>
+		<div class="content">
+			<div class="coursesContainer">
+                <div class = "coursesContainer-header">
+                    Available Courses
+                </div>
+                <ul class="aCourses"></ul>
+			</div>
+			<div class="coursesContainer">
+                <div class = "coursesContainer-header">
+                    Selected Courses
+                </div>
+                <ul class="sCourses"></ul>
+			</div>
+		</div>
+		<h3 class="header">Total Credits: <span class="credits">0 </span>
+			<button class="select-btn">Select</button>
+		</h3>
+	</body>
 </html>
