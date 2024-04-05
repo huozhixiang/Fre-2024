@@ -100,6 +100,7 @@ const Model = ((view, api) => {
                 this._tempList.push(course);
                 this._totalCredits += course.credit;
                 console.log(this._tempList);
+                this._avaliableList = this._avaliableList.filter(c => c.courseName !== courseName);
                 courses.classList.add('selected-course');
                 const creditContainer = document.querySelector(domstr.credits);
                 render(creditContainer, this._totalCredits);
