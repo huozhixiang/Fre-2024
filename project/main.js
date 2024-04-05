@@ -45,6 +45,7 @@ const Model = ((view, api) => {
     class State {
         constructor(){
             this._maxCredits = 18;
+            this._over = false;
             this._avaliableList = [];
             this._selectedList = [];
             this._totalCredits = 0;
@@ -60,6 +61,14 @@ const Model = ((view, api) => {
             const courseContainer = document.querySelector(domstr.available);
             const temp = createLists(this._avaliableList);
             render(courseContainer, temp);
+        }
+
+        get over(){
+            return this._over;
+        }
+
+        set over(val){
+            this._over = val;
         }
 
         get tempList(){
@@ -93,6 +102,7 @@ const Model = ((view, api) => {
                 this._avaliableList = this._avaliableList.filter(c => c.courseName !== courseName);
                 this._totalCredits += course.credit;
             }else{
+                this._over = true;
                 alert(('You can only choose up to 18 credits in one semester'));
             }
         }
@@ -122,7 +132,6 @@ const Controller = ((view, model) => {
         getData.then((lists) => {
             state.avaliableList = lists;
             addListenersToAvailableCourses();
-
         });
 
     }
@@ -132,9 +141,10 @@ const Controller = ((view, model) => {
         availableCourses.forEach(course => {
             course.addEventListener('click', () => {
                 const courseName = course.querySelector('span').innerText;
-                course.classList.toggle('selected-course');
                 state.addCourseToSelected(courseName);
-                console.log(course);
+                if(state.over === false){
+                    course.classList.toggle('selected-course');
+                }
             });
         });
     };
