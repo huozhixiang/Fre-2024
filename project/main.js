@@ -106,6 +106,15 @@ const Model = ((view, api) => {
                 alert(('You can only choose up to 18 credits in one semester'));
             }
         }
+
+        removeCourseFromSelected(courseName) {
+            const courseIndex = this._selectedList.findIndex(c => c.courseName === courseName);
+            if (courseIndex !== -1) {
+                const [courseRemoved] = this._selectedList.splice(courseIndex, 1);
+                this._totalCredits -= courseRemoved.credit;
+                this._avaliableList.push(courseRemoved);
+            }
+        }
     
         finalizeSelection() {
             const courseContainer = document.querySelector(view.domstr.available);
@@ -136,19 +145,26 @@ const Controller = ((view, model) => {
 
     }
 
+    const toggleCourseSelection = (course, courseName) => {
+        const isSelected = state.selectedList.some(course => course.courseName === courseName);
+        if (isSelected) {
+            state.removeCourseFromSelected(courseName);
+            course.classList.remove('selected-course');
+        } else {
+            state.addCourseToSelected(courseName);
+            course.classList.add('selected-course');
+        }
+    };
+    
     const addListenersToAvailableCourses = () => {
         const availableCourses = document.querySelectorAll(view.domstr.available + ' li');
         availableCourses.forEach(course => {
             course.addEventListener('click', () => {
                 const courseName = course.querySelector('span').innerText;
-                state.addCourseToSelected(courseName);
-                if(state.over === false){
-                    course.classList.toggle('selected-course');
-                }
+                toggleCourseSelection(course, courseName);
             });
         });
     };
-
 
     const submit = () => {
         console.log("loading")
