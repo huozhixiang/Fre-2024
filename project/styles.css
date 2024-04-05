@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    width: calc(100% - 40px);
+    height: 300px;
+  }
+  
+  .available-courses,
+  .selected-courses {
+    width: 45%;
+    height: 100%;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+  }
+  
+  .course-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .course-unit {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    background-color: rgb(221, 239, 221);
+    cursor: pointer;
+  }
+  
+  .course-unit.selected {
+    background-color: deepskyblue;
+  }
+  
