@@ -92,35 +92,41 @@ const Model = ((view, api) => {
             let temp = this._totalCredits + " ";
             render(credit, temp);
         }
-        
 
-        addCourseToSelected(courseName) {
+        addCourseToTemp(courses, courseName){
             const course = this._avaliableList.find(c => c.courseName === courseName);
             if (course && this._totalCredits + course.credit <= this._maxCredits) {
-                console.log(this._tempList);
-                this._selectedList.push(course);
-                this._avaliableList = this._avaliableList.filter(c => c.courseName !== courseName);
+                this._over = false;
+                this._tempList.push(course);
                 this._totalCredits += course.credit;
+                console.log(this._tempList);
+                courses.classList.add('selected-course');
+                const creditContainer = document.querySelector(domstr.credits);
+                render(creditContainer, this._totalCredits);
             }else{
                 this._over = true;
                 alert(('You can only choose up to 18 credits in one semester'));
             }
         }
 
-        removeCourseFromSelected(courseName) {
-            const courseIndex = this._selectedList.findIndex(c => c.courseName === courseName);
+        removeCourseFromTemp(course, courseName) {
+            const courseIndex = this._tempList.findIndex(c => c.courseName === courseName);
             if (courseIndex !== -1) {
-                const [courseRemoved] = this._selectedList.splice(courseIndex, 1);
+                const [courseRemoved] = this._tempList.splice(courseIndex, 1);
                 this._totalCredits -= courseRemoved.credit;
                 this._avaliableList.push(courseRemoved);
+                console.log(this._tempList);
+                course.classList.remove('selected-course');
+                const creditContainer = document.querySelector(domstr.credits);
+                render(creditContainer, this._totalCredits);
             }
         }
-    
+
         finalizeSelection() {
             const courseContainer = document.querySelector(view.domstr.available);
             const selectedContainer = document.querySelector(view.domstr.selected);
             render(courseContainer, createLists(this._avaliableList));
-            render(selectedContainer, createLists(this._selectedList));
+            render(selectedContainer, createLists(this._tempList));
             this.totalCredits = this._totalCredits;
         }
     }
@@ -146,13 +152,11 @@ const Controller = ((view, model) => {
     }
 
     const toggleCourseSelection = (course, courseName) => {
-        const isSelected = state.selectedList.some(course => course.courseName === courseName);
+        const isSelected = state.tempList.some(course => course.courseName === courseName);
         if (isSelected) {
-            state.removeCourseFromSelected(courseName);
-            course.classList.remove('selected-course');
+            state.removeCourseFromTemp(course, courseName);      
         } else {
-            state.addCourseToSelected(courseName);
-            course.classList.add('selected-course');
+            state.addCourseToTemp(course, courseName);
         }
     };
     
