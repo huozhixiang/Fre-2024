@@ -48,6 +48,7 @@ const Model = ((view, api) => {
             this._avaliableList = [];
             this._selectedList = [];
             this._totalCredits = 0;
+            this._tempList = [];
         }
 
         get avaliableList() {
@@ -61,6 +62,13 @@ const Model = ((view, api) => {
             render(courseContainer, temp);
         }
 
+        get tempList(){
+            return this._tempList;
+        }
+
+        set tempList(list){
+            this._tempList = [...list];
+        }
         get selectedList() {
             return this._selectedList;
         }
@@ -80,9 +88,12 @@ const Model = ((view, api) => {
         addCourseToSelected(courseName) {
             const course = this._avaliableList.find(c => c.courseName === courseName);
             if (course && this._totalCredits + course.credit <= this._maxCredits) {
+                console.log(this._tempList);
                 this._selectedList.push(course);
                 this._avaliableList = this._avaliableList.filter(c => c.courseName !== courseName);
                 this._totalCredits += course.credit;
+            }else{
+                alert(('You can only choose up to 18 credits in one semester'));
             }
         }
     
